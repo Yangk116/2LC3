@@ -581,3 +581,43 @@ Proof:
         suc (pred m)
       =⟨ Assumption `m = suc (pred m)` ⟩
         m
+
+        Theorem (3.88) “Replace by `false`”: p ∨ E[z ≔ p] ≡ p ∨ E[z ≔ false]
+Proof:
+    p ∨ E[z ≔ p]
+  ≡⟨ “Double negation” ⟩
+    ¬ ¬ p ∨ E[z ≔ p]
+  ≡⟨ “Material implication” ⟩
+    ¬ p ⇒ E[z ≔ p]
+  ≡⟨ “Definition of ¬ from ≡” ⟩
+    (p ≡ false) ⇒ E[z ≔ p]
+  ≡⟨ “Definition of ≡” ⟩
+    (p = false) ⇒ E[z ≔ p]
+  ≡⟨ “Replacement” ⟩
+    (p = false) ⇒ E[z ≔ false]
+  ≡⟨ “Definition of ≡” ⟩
+    (p ≡ false) ⇒ E[z ≔ false]
+  ≡⟨ “Definition of ¬ from ≡” ⟩
+    ¬ p ⇒ E[z ≔ false]
+  ≡⟨ “Material implication” ⟩
+    ¬ ¬ p ∨ E[z ≔ false]
+  ≡⟨ “Double negation” ⟩
+    p ∨ E[z ≔ false]
+
+Theorem (3.89) “Shannon”: E[z ≔ p] ≡ (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
+Proof:
+    E[z ≔ p]
+  =⟨ “Identity of ∧”⟩
+    true ∧ E[z ≔ p] 
+  =⟨ “LEM”⟩
+    (p ∨ ¬ p) ∧ E[z ≔ p] 
+  =⟨ “Distributivity of ∧ over ∨”⟩
+    (p ∧ E[z ≔ p]) ∨ (¬ p ∧ E[z ≔ p])
+  =⟨ “Replace by `true`” (3.87)⟩
+    (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ p])
+  =⟨ “Definition of ¬ from ≡”⟩
+    (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ p])
+  =⟨ “Replacement” (3.84a) with “Definition of ≡”⟩
+    (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ false])
+  =⟨ “Definition of ¬ from ≡” ⟩
+    (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
