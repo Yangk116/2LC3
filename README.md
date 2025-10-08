@@ -658,3 +658,43 @@ Proof:
     (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ false])
   =⟨ “Definition of ¬ from ≡” ⟩
     (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
+    Theorem (3.44) (3.44d) “Absorption”: ¬ p ∨ (p ∧ q) ≡ ¬ p ∨ q
+Theorem (3.64) “Self-distributivity of ⇒”:
+    p ⇒ (q ⇒ r) ≡ (p ⇒ q) ⇒ (p ⇒ r)
+Proof:
+    (p ⇒ q) ⇒ (p ⇒ r)
+  ≡⟨“Definition of ⇒”⟩
+    ¬ (p ⇒ q) ∨ (p ⇒ r)
+  ≡⟨“Definition of ⇒”⟩
+    ¬ (¬ p ∨ q) ∨ (¬ p ∨ r)
+  ≡⟨“De Morgan”⟩
+    (¬ ¬ p ∧ ¬ q) ∨ (¬ p ∨ r)
+  ≡⟨“Double negation”⟩
+    (p ∧ ¬ q) ∨ (¬ p ∨ r)
+  ≡⟨“Distributivity of ∨ over ∧”⟩
+    (p ∨ (¬ p ∨ r)) ∧ (¬ q ∨ (¬ p ∨ r))
+  ≡⟨“Associativity of ∨”⟩
+    ((p ∨ ¬ p) ∨ r) ∧ ((¬ q ∨ ¬ p) ∨ r)
+  ≡⟨“LEM”⟩
+    (true ∨ r) ∧ ((¬ q ∨ ¬ p) ∨ r)
+  ≡⟨“Zero of ∨”⟩
+    true ∧ ((¬ q ∨ ¬ p) ∨ r)
+  ≡⟨“Identity of ∧”⟩
+    ((¬ q ∨ ¬ p) ∨ r)
+  ≡⟨“Definition of implication”⟩
+    p ⇒ (q ⇒ r)
+Theorem (3.48): p ∧ q ≡ p ∧ ¬ q ≡ ¬ p
+Proof:
+    p ∧ ¬ q ≡ ¬ p
+  ≡⟨“Golden rule”⟩
+    p ≡ ¬ q ≡ p ∨ ¬ q ≡ ¬ p
+  ≡⟨“Symmetry of ≡”⟩
+    ¬ q ≡ (p ∨ ¬ q ≡ p) ≡ ¬ p
+  ≡⟨(3.32)⟩
+    ¬ q ≡ p ∨ q ≡ ¬ p
+  ≡⟨“Symmetry of ≡”⟩
+    ¬ p ≡ ¬ q ≡ p ∨ q
+  ≡⟨“Cancellation of ¬”⟩
+     p ≡  q ≡ p ∨ q
+  ≡⟨“Golden rule”⟩
+    p ∧ q
