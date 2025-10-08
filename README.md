@@ -60,6 +60,43 @@ Proof:
   =⟨ Evaluation ⟩
     5 · y + 29
 
+Lemma (5):       p = p₀ ∧ q = q₀
+            ⇒⁅ p := p + q ⍮
+               q := p - q ⍮
+               p := p - q
+              ⁆
+                 p = q₀ ∧ q = p₀
+Proof:
+    p = p₀ ∧ q = q₀
+  ≡⟨ “Symmetry of ∧” ⟩
+    q = q₀ ∧ p = p₀
+  ≡⟨ “Identity of +” ⟩
+    q + 0 = q₀ ∧ p = p₀
+  ≡⟨ “Unary minus” ⟩
+    q + (p + - p) = q₀ ∧ p = p₀
+  ≡⟨ “Associativity of +” ⟩
+    (q + p) + - p = q₀ ∧ p = p₀
+  ≡⟨ “Identity of +” ⟩
+    (q + p) + - (p + 0) = q₀ ∧ (p + 0) = p₀
+  ≡⟨ “Unary minus” ⟩
+    (q + p) + - (p + (q + - q)) = q₀ ∧ (p + (q + - q)) = p₀
+  ≡⟨ “Associativity of +” ⟩
+    (q + p) + - ((p + q) + - q) = q₀ ∧ ((p + q) + - q) = p₀
+  ≡⟨ Substitution ⟩
+    (p + - (p + - q) = q₀ ∧ (p + - q) = p₀)[p ≔ p + q]
+  ⇒⁅ p := p + q ⁆   ⟨ “Assignment” ⟩
+    p + - (p + - q) = q₀ ∧ (p + - q) = p₀
+  ≡⟨ “Subtraction” ⟩
+    p - (p - q) = q₀ ∧ (p - q) = p₀
+  ≡⟨ Substitution ⟩
+    (p - q = q₀ ∧ q = p₀ )[q ≔ p - q]
+  ⇒⁅ q := p - q ⁆   ⟨ “Assignment” ⟩
+    p - q = q₀ ∧ q = p₀ 
+  ≡⟨ Substitution ⟩
+    (p = q₀ ∧ q = p₀)[p ≔ p - q]
+  ⇒⁅ p := p - q ⁆   ⟨ “Assignment” ⟩
+    p = q₀ ∧ q = p₀ 
+    
   Lemma (Ex2.6d):       s
                  ⇒⁅  q := (¬ p ∧ s)
                    ⍮ r := (p ∧ s)
