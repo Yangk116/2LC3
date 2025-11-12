@@ -1,10 +1,4 @@
-“Set inclusion” ⊆ 
-“Set extensionality” =
-Mutual implication ≡
-Induction over ℕ 
-Mutual inclusion =
-Relation extensionality = 
-Relation inclusion = 
+
 Theorem “M2.2”:
       m = m₀ ∧ n = n₀
     ⇒⁅  while n ≠ 0
