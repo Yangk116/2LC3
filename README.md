@@ -1,700 +1,394 @@
-Theorem (15.27): (a - b) · (c - d) = (a · c + b · d) - (a · d + b · c)
+“Set inclusion” ⊆ 
+“Set extensionality” =
+Mutual implication ≡
+Induction over ℕ 
+Mutual inclusion =
+Relation extensionality = 
+Relation inclusion = 
+Theorem “M2.2”:
+      m = m₀ ∧ n = n₀
+    ⇒⁅  while n ≠ 0
+          do
+            n := n - 1 ⍮
+            m := m - 1
+          od
+      ⁆
+      m = m₀ - n₀
 Proof:
-    (a - b) · (c - d)
-  = ⟨ “Subtraction” ⟩ 
-    (a + (- b)) · (c - d)
-  = ⟨ “Distributivity of · over +” ⟩
-     a · (c - d) + (- b) · (c - d) 
-  = ⟨ (15.20) ⟩
-     a · (c - d) + (- 1) · b · (c - d) 
-  = ⟨ “Associativity of ·” ⟩
-     a · (c - d) + (- 1) · (b · (c - d))
-  = ⟨ (15.20) ⟩
-     a · (c - d) + (- (b · (c - d)))
-  = ⟨ “Subtraction” ⟩
-     a · (c + (- d)) - b · (c + (- d))
-  = ⟨ “Distributivity of · over +” ⟩
-     a · c + a · (- d) - (b · c + b · (- d))
-  = ⟨ (15.22) ⟩
-     a · c + (- (a · d)) - (b · c + (- (b · d)))
-  = ⟨ “Subtraction” ⟩
-     a · c - a · d - (b · c - b · d)
-  = ⟨ (15.26) ⟩
-     (a · c + b · d) - (a · d + b · c)
-
- Theorem (15.29) “Distributivity of · over -”:
-    (a - b) · c = a · c - b · c
-Proof:
-    (a - b) · c
-  =⟨ “Subtraction” ⟩
-    (a + (- b)) · c
-  =⟨ “Distributivity of · over +” ⟩
-    a · c + (- b) · c
-  =⟨ (15.20) ⟩
-    a · c + (- 1) · b · c
-  =⟨ “Associativity of ·” ⟩
-    a · c + (- 1) · (b · c)
-  =⟨ (15.20) ⟩
-    a · c + (- (b · c))
-  =⟨ “Subtraction” ⟩
-    a · c - b · c
-
- Calculation:
-    (2 · x + 3 · y)[x, y ≔ y + 1, (x + 4)[x ≔ y + 5]]
-  =⟨ Substitution ⟩
-    (2 · x + 3 · y)[x, y ≔ y + 1, y + 5 + 4]
-  =⟨ Evaluation ⟩
-    (2 · x + 3 · y)[x, y ≔ y + 1, y + 9]
-  =⟨ Substitution ⟩
-    2 · (y + 1) + 3 · (y + 9)
-  =⟨ “Distributivity of · over +” ⟩
-    2 · y + 2 · 1 + 3 · y + 3 · 9
-  =⟨ “Symmetry of +” ⟩
-    3 · y + 2 · y + 2 · 1  + 3 · 9
-  =⟨ “Associativity of +” ⟩
-    3 · y + 2 · y + (2 · 1  + 3 · 9)
-  =⟨ “Distributivity of · over +” ⟩
-    (3 + 2) · y + (2 · 1  + 3 · 9)
-  =⟨ Evaluation ⟩
-    5 · y + (2  + 27)
-  =⟨ Evaluation ⟩
-    5 · y + 29
-
-Lemma (5):       p = p₀ ∧ q = q₀
-            ⇒⁅ p := p + q ⍮
-               q := p - q ⍮
-               p := p - q
-              ⁆
-                 p = q₀ ∧ q = p₀
-Proof:
-    p = p₀ ∧ q = q₀
+    m = m₀ ∧ n = n₀   ╍╍╍  Precondition
+  ≡⟨ “Cancellation of +”, “Subtraction” ⟩
+    m - n = m₀ - n ∧ n = n₀
   ≡⟨ “Symmetry of ∧” ⟩
-    q = q₀ ∧ p = p₀
-  ≡⟨ “Identity of +” ⟩
-    q + 0 = q₀ ∧ p = p₀
-  ≡⟨ “Unary minus” ⟩
-    q + (p + - p) = q₀ ∧ p = p₀
-  ≡⟨ “Associativity of +” ⟩
-    (q + p) + - p = q₀ ∧ p = p₀
-  ≡⟨ “Identity of +” ⟩
-    (q + p) + - (p + 0) = q₀ ∧ (p + 0) = p₀
-  ≡⟨ “Unary minus” ⟩
-    (q + p) + - (p + (q + - q)) = q₀ ∧ (p + (q + - q)) = p₀
-  ≡⟨ “Associativity of +” ⟩
-    (q + p) + - ((p + q) + - q) = q₀ ∧ ((p + q) + - q) = p₀
+    n = n₀ ∧ m - n = m₀ - n
   ≡⟨ Substitution ⟩
-    (p + - (p + - q) = q₀ ∧ (p + - q) = p₀)[p ≔ p + q]
-  ⇒⁅ p := p + q ⁆   ⟨ “Assignment” ⟩
-    p + - (p + - q) = q₀ ∧ (p + - q) = p₀
-  ≡⟨ “Subtraction” ⟩
-    p - (p - q) = q₀ ∧ (p - q) = p₀
-  ≡⟨ Substitution ⟩
-    (p - q = q₀ ∧ q = p₀ )[q ≔ p - q]
-  ⇒⁅ q := p - q ⁆   ⟨ “Assignment” ⟩
-    p - q = q₀ ∧ q = p₀ 
-  ≡⟨ Substitution ⟩
-    (p = q₀ ∧ q = p₀)[p ≔ p - q]
-  ⇒⁅ p := p - q ⁆   ⟨ “Assignment” ⟩
-    p = q₀ ∧ q = p₀ 
-    
-  Lemma (Ex2.6d):       s
-                 ⇒⁅  q := (¬ p ∧ s)
-                   ⍮ r := (p ∧ s)
-                   ⁆
-                      (p ∨ q) ∧ (¬ p ∨ r)
-Proof:
-    s
-  ≡⟨ “Identity of ∨” ⟩
-    false ∨ s
-  ≡⟨ “Contradiction” ⟩
-    (p ∧ ¬ p) ∨ s
-  ≡⟨ “Distributivity of ∨ over ∧” ⟩
-    (p ∨ s) ∧ (¬ p ∨ s)
-  ≡⟨ “Identity of ∧”  ⟩
-    (true ∧ (p ∨ s)) ∧ (true ∧ (¬ p ∨ s))
-  ≡⟨ “LEM” ⟩
-    ((p ∨ ¬ p) ∧ (p ∨ s)) ∧ ((p ∨ ¬ p) ∧ (¬ p ∨ s))
-  ≡⟨ “Symmetry of ∨” ⟩
-    ((p ∨ ¬ p) ∧ (p ∨ s)) ∧ ((¬ p ∨ p) ∧ (¬ p ∨ s))
-  ≡⟨ “Distributivity of ∨ over ∧” ⟩
-    (p ∨ (¬ p ∧ s)) ∧ (¬ p ∨ (p ∧ s))
-  ≡⟨ Substitution ⟩
-    ((p ∨ q) ∧ (¬ p ∨ (p ∧ s)))[q ≔ (¬ p ∧ s)]
-  ⇒⁅ q := (¬ p ∧ s) ⁆ ⟨ “Assignment” ⟩
-    (p ∨ q) ∧ (¬ p ∨ (p ∧ s))
-  ≡⟨ Substitution ⟩
-    ((p ∨ q) ∧ (¬ p ∨ r))[r ≔ (p ∧ s)]
-  ⇒⁅ r := (p ∧ s) ⁆ ⟨ “Assignment” ⟩
-    (p ∨ q) ∧ (¬ p ∨ r)
-
-Theorem (3.31) “Distributivity of ∨ over ∨”: p ∨ (q ∨ r) ≡ (p ∨ q) ∨ (p ∨ r)
-Proof:
-    (p ∨ q) ∨ (p ∨ r)
-  =⟨ “Associativity of ∨” ⟩
-    (p ∨ q ∨ p) ∨ r
-  =⟨ “Associativity of ∨” ⟩
-    ((p ∨ p) ∨ q) ∨ r
-  =⟨ “Idempotency of ∨” ⟩
-    (p ∨ q) ∨ r
-  =⟨ “Associativity of ∨” ⟩
-    p ∨ (q ∨ r)
- 
-Theorem (3.32): p ∨ q ≡ p ∨ ¬ q ≡ p
-Proof:
-    p ∨ q ≡ p ∨ ¬ q
-  =⟨ “Distributivity of ∨ over ≡” ⟩
-    p ∨ (q ≡ ¬ q)
-  =⟨ “Commutativity of ¬ with ≡” ⟩
-    p ∨ ¬ (q ≡ q)
-  =⟨ “Identity of ≡” ⟩
-    p ∨ ¬ true
-  =⟨ “Definition of `false`” ⟩
-    p ∨ false
-  =⟨ “Identity of ∨” ⟩
-    p 
-
-Theorem (3.55): (p ∧ q) ∧ r ≡ p ≡ q ≡ r ≡ p ∨ q ≡ q ∨ r ≡ r ∨ p ≡ p ∨ q ∨ r
-Proof:
-    (p ∧ q) ∧ r
-  ≡ ⟨ “Golden rule” ⟩ 
-    (p ≡ q ≡ p ∨ q) ∧ r
-  ≡ ⟨ “Golden rule” with `p, q ≔ (p ≡ q ≡ p ∨ q), r` ⟩ 
-    (p ≡ q ≡ p ∨ q) ≡ r ≡ (p ≡ q ≡ p ∨ q) ∨ r
-  ≡ ⟨ “Distributivity of ∨ over ≡” ⟩ 
-    (p ≡ q ≡ p ∨ q) ≡ r ≡ p ∨ r ≡ q ∨ r ≡ p ∨ q ∨ r 
-  ≡ ⟨ “Distributivity of ∨ over ≡” ⟩ 
-    (p ≡ q ≡ p ∨ q) ≡ r ≡ p ∨ r ≡ q ∨ r ≡ p ∨ q ∨ r 
-
-Theorem (3.44) (3.44b) “Absorption”: p ∨ (¬ p ∧ q) ≡ p ∨ q
-Proof:
-    p ∨ q 
-  =⟨ (3.32) ⟩
-    p ∨ ¬ q ≡ p 
-  =⟨ “Idempotency of ∨” ⟩
-    p ∨ ¬ q ≡ p ∨ p
-  =⟨ “Distributivity of ∨ over ≡” ⟩
-    p ∨ (p ≡ ¬ q)
-  =⟨ “¬ connection” ⟩
-    p ∨ (¬ p ≡ q)
-  =⟨ “Golden rule” ⟩
-    p ∨ ((¬ p ∨ q) ≡ (¬ p ∧ q))
-  =⟨ “Distributivity of ∨ over ≡”  ⟩
-    p ∨ (¬ p ∨ q) ≡ p ∨ (¬ p ∧ q)
-  =⟨ “Associativity of ∨”  ⟩
-    (p ∨ ¬ p) ∨ q ≡ p ∨ (¬ p ∧ q)
-  =⟨ “LEM” ⟩
-    true ∨  q ≡ p ∨ (¬ p ∧ q)
-  =⟨ “Zero of ∨” ⟩
-    true ≡ p ∨ (¬ p ∧ q)
-  =⟨ “Identity of ≡” ⟩
-    p ∨ (¬ p ∧ q)
-
-Theorem (3.62): p ⇒ (q ≡ r) ≡ p ∧ q ≡ p ∧ r
-Proof:
-    p ⇒ (q ≡ r)
-  =⟨ “Definition of ⇒” ⟩
-    ¬ p ∨ (q ≡ r)
-  =⟨ “Distributivity of ∨ over ≡” ⟩
-    ¬ p ∨ q ≡ ¬ p ∨ r
-  =⟨ (3.32) ⟩
-    (q ∨ p ≡ q) ≡ (r ∨ p ≡ r)
-  =⟨ “Golden rule” ⟩
-    q ∧ p ≡ p ≡ p ≡ p ∧ r
-  =⟨ “Identity of ≡” ⟩
-    q ∧ p ≡ true ≡ p ∧ r
-  =⟨ “Identity of ≡” ⟩
-    p ∧ q ≡ p ∧ r
-
-Theorem (3.82) (3.82b) “Transitivity of ⇒”: (p ≡ q) ∧ (q ⇒ r) ⇒ (p ⇒ r)
-Proof: 
-    (p ≡ q) ∧ (q ⇒ r) ⇒ (p ⇒ r)
-  = ⟨ “Definition of ⇒” (3.59) ⟩
-    ¬ ((p ≡ q) ∧ (q ⇒ r)) ∨ (p ⇒ r)
-  = ⟨ “De Morgan” ⟩
-    ¬ (p ≡ q) ∨ ¬ (q ⇒ r) ∨ (p ⇒ r)
-  = ⟨ “Definition of ⇒” (3.59) ⟩
-    ¬ (p ≡ q) ∨ ¬ (¬ q ∨ r) ∨ (¬ p ∨ r)
-  = ⟨ “De Morgan” ⟩
-    ¬ (p ≡ q) ∨ (¬ ¬ q ∧ ¬ r) ∨ ¬ p ∨ r
-  = ⟨ “Symmetry of ∨” ⟩
-    ¬ (p ≡ q) ∨ (¬ ¬ q ∧ ¬ r) ∨ r ∨ ¬ p
-  = ⟨ “Absorption” (3.44b) ⟩
-    ¬ (p ≡ q) ∨ (¬ ¬ q ∨ r) ∨ ¬ p
-  = ⟨ “Commutativity of ¬ with ≡” ⟩
-    (p ≡ ¬ q) ∨ (¬ ¬ q ∨ r) ∨ ¬ p
-  = ⟨ “Double negation” ⟩
-    (p ≡ ¬ q) ∨ q ∨ r ∨ ¬ p
-  = ⟨ “Distributivity of ∨ over ≡” ⟩
-    (p ∨ q ≡ ¬ q ∨ q) ∨ r ∨ ¬ p
-  = ⟨ “LEM” ⟩
-    (p ∨ q ≡ true) ∨ r ∨ ¬ p
-  = ⟨ “Identity of ≡” ⟩
-    p ∨ q  ∨ r ∨ ¬ p
-  = ⟨ “LEM” ⟩
-    true ∨ q  ∨ r
-  = ⟨ “Zero of ∨” ⟩
-    true 
- 
-Theorem (3.82) (3.82c) “Transitivity of ⇒”: (p ⇒ q) ∧ (q ≡ r) ⇒ (p ⇒ r)
-Proof:
-    (p ⇒ q) ∧ (q ≡ r) ⇒ (p ⇒ r)
-  =⟨ “Definition of ⇒” (3.59)⟩
-    ¬ ((p ⇒ q) ∧ (q ≡ r)) ∨ (p ⇒ r)
-  =⟨ “De Morgan”⟩
-    ¬ (p ⇒ q) ∨ ¬ (q ≡ r) ∨ (p ⇒ r)
-  =⟨ “Definition of ⇒”⟩
-    ¬ (¬ p ∨ q) ∨ ¬ (q ≡ r) ∨ (¬ p ∨ r)
-  =⟨ “De Morgan”⟩
-    (¬ ¬ p ∧ ¬ q) ∨ (¬ p ∨ r) ∨ ¬ (q ≡ r) 
-  =⟨ “Absorption” ⟩
-    ¬ p ∨ ¬ q ∨ r ∨ ¬ (q ≡ r) 
-  =⟨ “Commutativity of ¬ with ≡” ⟩
-    ¬ p ∨ ¬ q ∨ r ∨ (q ≡ ¬ r)
-  =⟨ “Distributivity of ∨ over ≡” ⟩
-    ¬ p ∨ ¬ q ∨ (r ∨ q ≡ r ∨ ¬ r)
-  =⟨ “LEM” ⟩
-    ¬ p ∨ ¬ q ∨ (r ∨ q ≡ true)
-  =⟨ “Identity of ≡” ⟩
-    ¬ p ∨ ¬ q ∨ r ∨ q 
-  =⟨ “LEM” ⟩
-    ¬ p ∨ r ∨ true
-  =⟨ “Zero of ∨” ⟩
-    true  
-
-    Theorem “Multiplying the successor”: m · (suc n) = m + m · n
-Proof:
-  By induction on `m : ℕ`:
-    Base case `0 · (suc n) = 0 + 0 · n`:
-        0 · suc n
-      =⟨ “Definition of · for 0” ⟩
-        0
-      =⟨ “Left-identity of +” ⟩
-        0 + 0
-      =⟨ “Definition of · for 0” ⟩
-        0 + 0 · n
-    Induction step `(suc m) · (suc n) = (suc m) + (suc m) · n`:
-        (suc m) · (suc n)
-      =⟨ “Definition of · for `suc`”⟩
-        suc n + m · (suc n)
-      =⟨ Induction hypothesis⟩
-        suc n + (m + m · n)
-      =⟨ “Associativity of +”⟩
-        (suc n + m) + m · n
-      =⟨ “Definition of + for `suc`”⟩
-        suc(n + m) + m · n
-      =⟨ “Symmetry of +”⟩
-        suc(m + n) + m · n
-      =⟨ “Definition of + for `suc`”⟩
-        suc(m + n + m · n)
-      =⟨ “Associativity of +”⟩
-        suc(m + (n + m · n))
-      =⟨ “Definition of · for `suc`”⟩
-        suc(m + suc m · n)
-      =⟨ “Definition of + for `suc`”⟩
-        suc m + suc m · n
-
-Theorem “Symmetry of ·”: m · n = n · m
-Proof:
-  By induction on `m : ℕ`:
-    Base case `0 · n = n · 0`:
-        0 · n
-      =⟨ “Definition of · for 0” ⟩
-        0
-      =⟨ “Right-zero of ·” ⟩
-        n · 0
-    Induction step `(suc m) · n = n · (suc m)` :
-        suc m · n
-      = ⟨ “Definition of · for `suc`” ⟩
-        n + m · n
-      = ⟨ Induction hypothesis ⟩ 
-        n + n · m
-      = ⟨ “Multiplying the successor” ⟩ 
-        n · suc m
- 
-        
-Theorem “Distributivity of · over +”: (k + m) · n = k · n + m · n
-Proof:
-  By induction on `k : ℕ`:
-    Base case `(0 + m) · n = 0 · n + m · n`:
-        (0 + m) · n
-      =⟨ “Left-identity of +” ⟩
-        m · n
-      =⟨ “Left-identity of +” ⟩
-        0 + m · n
-      =⟨ “Definition of · for 0” ⟩
-        0 · n + m · n
-    Induction step `(suc k + m) · n = suc k · n + m · n`:
-        (suc k + m) · n
-      = ⟨ “Definition of + for `suc`” ⟩
-         suc (k + m) · n
-      = ⟨ “Definition of · for `suc`” ⟩
-         n + (k + m) · n
-      = ⟨ Induction hypothesis ⟩
-         n + (k · n + m · n)
-      = ⟨ “Associativity of +” ⟩
-         (n + k · n) + m · n
-      = ⟨ “Definition of · for `suc`” ⟩
-         (suc k · n) + m · n
-
-Theorem “Associativity of ·”: (k · m) · n = k · (m · n)
-Proof:
-  By induction on `k : ℕ`:
-    Base case `(0 · m) · n = 0 · (m · n)`:
-        (0 · m) · n
-      = ⟨ “Definition of · for 0” ⟩
-        0 · n 
-      = ⟨ “Definition of · for 0” ⟩
-        0 
-      = ⟨ “Definition of · for 0” ⟩
-        0 · (m · n)
-    Induction step `(suc k · m) · n = suc k · (m · n)`:
-        (suc k · m) · n
-      = ⟨ “Definition of · for `suc`” ⟩
-        (m + k · m) · n
-      = ⟨ “Distributivity of · over +” ⟩
-        m · n + (k · m) · n
-      = ⟨ Induction hypothesis ⟩
-        m · n + k · (m · n)
-      = ⟨ “Definition of · for `suc`” ⟩
-        suc k · (m · n)
-        
-    Theorem “Monus exchange”: m + (n - m) = n + (m - n)
-Proof:
-  By induction on `m : ℕ`:
-    Base case `0 + (n - 0) = n + (0 - n)`:
-        0 + (n - 0) = n + (0 - n)
-      =⟨ “Right-identity of subtraction”⟩
-        0 + n = n + (0 - n)
-      =⟨ “Subtraction from zero”⟩
-        0 + n = n + 0 — This is “Symmetry of +”
-    Induction step `suc m + (n - suc m) = n + (suc m - n)`:
-      By induction on `n : ℕ`:
-        Base case `suc m + (0 - suc m) = 0 + (suc m - 0)`:
-            suc m + (0 - suc m) = 0 + (suc m - 0)
-          =⟨ “Right-identity of subtraction”⟩ 
-            suc m + (0 - suc m) = 0 + suc m 
-          =⟨ “Subtraction from zero” ⟩ 
-            suc m + 0 = 0 + suc m — This is “Symmetry of +”
-        Induction step `suc m + (suc n - suc m) = suc n + (suc m - suc n)`:
-            suc m + (suc n - suc m)
-          = ⟨ “Subtraction of successor from successor” ⟩ 
-            suc m + (n - m)
-          = ⟨ “Definition of + for `suc`”  ⟩ 
-            suc (m + (n - m))
-          = ⟨ Induction hypothesis `m + (n - m) = n + (m - n)` ⟩ 
-            suc (n + (m - n))
-          = ⟨ “Definition of + for `suc`” ⟩ 
-            suc n + (m - n)
-          = ⟨ “Subtraction of successor from successor” ⟩ 
-            suc n + (suc m - suc n)
-             Theorem (3.89) “Shannon”: E[z ≔ p] ≡ (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
-Proof:
-    E[z ≔ p]
-  =⟨ “Identity of ∧”⟩
-    true ∧ E[z ≔ p] 
-  =⟨ “LEM”⟩
-    (p ∨ ¬ p) ∧ E[z ≔ p] 
-  =⟨ “Distributivity of ∧ over ∨”⟩
-    (p ∧ E[z ≔ p]) ∨ (¬ p ∧ E[z ≔ p])
-  =⟨ “Replace by `true`” (3.87)⟩
-    (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ p])
-  =⟨ “Definition of ¬ from ≡”⟩
-    (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ p])
-  =⟨ “Replacement” (3.84a) with “Definition of ≡”⟩
-    (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ false])
-  =⟨ “Definition of ¬ from ≡” ⟩
-    (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
-
-    Calculation:
-    (5 + u) - 8
-  ≤⟨ “≤-Antitonicity of -” with Fact `7 ≤ 8` ⟩
-    (5 + u) - 7
-  =⟨ “Mutual associativity of + and -” ⟩
-    5 + (u - 7)
-  ≤⟨ “≤-Monotonicity of +” with Fact `5 ≤ 6` ⟩
-    6 + (u - 7)
-  =⟨ “Symmetry of +” ⟩
-    (u - 7) + 6
-  ≤⟨ “≤-Monotonicity of +” with 
-      “≤-Antitonicity of -” with Fact `4 ≤ 7` ⟩
-    (u - 4) + 6
-  =⟨ “Symmetry of +” ⟩
-    6 + (u - 4)
-  =⟨ “Mutual associativity of + and -” ⟩
-    6 + u - 4
-  ≤⟨ “≤-Monotonicity of -” with
-     “≤-Monotonicity of +” with Fact `6 ≤ 7` ⟩
-    (7 + u) - 4
-  ≤⟨ “≤-Antitonicity of -” with Fact `3 ≤ 4` ⟩
-    (7 + u) - 3
-
-    Theorem (4.2) “Left-monotonicity of ∨” “Monotonicity of ∨”:
-    (p ⇒ q) ⇒ (p ∨ r) ⇒ (q ∨ r)
-Proof:
-  Assuming `p ⇒ q`, `p ∨ r`:
-    By cases: `p`, `r`
-      Completeness: By Assumption `p ∨ r`
-      Case `p`:
-          true
-        =⟨ Assumption `p`⟩ 
-          p
-        ⇒⟨ Assumption `p ⇒ q` ⟩
-          q
-        ⇒⟨ “Strengthening” (3.76a) ⟩ 
-          q ∨ r
-      Case `r`:
-          true
-        =⟨ Assumption `r`⟩ 
-          r
-        ⇒⟨ “Strengthening” (3.76a) ⟩
-          q ∨ r
-
-
-Theorem (4.2) “Left-monotonicity of ∨” “Monotonicity of ∨”:
-    (p ⇒ q) ⇒ (p ∨ r) ⇒ (q ∨ r)
-Proof:
-  Assuming `p ⇒ q`, `p ∨ r`:
-    By cases: `p`, `r`
-      Completeness: By Assumption `p ∨ r`
-      Case `p`:
-          q ∨ r
-        ⇐⟨ “Strengthening” (3.76a) ⟩
-          q
-        ⇐⟨ Assumption `p ⇒ q` ⟩ 
-          p
-        =⟨ Assumption `p`⟩
-          true 
-      Case `r`:
-          q ∨ r
-        ⇐⟨ “Strengthening” (3.76a) ⟩
-          r
-        =⟨ Assumption `r`⟩
-          true
-
-Theorem (4.3) “Left-monotonicity of ∧” “Monotonicity of ∧”:
-    (p ⇒ q) ⇒ ((p ∧ r) ⇒ (q ∧ r))
-Proof:
-      (p ⇒ q) ⇒ ((p ∧ r) ⇒ (q ∧ r))
-    ≡⟨ “Definition of ⇒” (3.60) ⟩
-      (p ∧ q ≡ p) ⇒ ((p ∧ r) ⇒ (q ∧ r))
-  Proof for this:
-    Assuming `p ∧ q ≡ p`:
-        p ∧ r
-      =⟨ Assumption `p ∧ q ≡ p` ⟩ 
-        p ∧ q ∧ r
-      ⇒⟨ “Weakening” (3.76b) ⟩
-        q ∧ r
-Theorem (15.35) “Positivity under positive ·”: pos a ⇒ (pos b ≡ pos (a · b))
-Proof:
-  Assuming `pos a`:
-      pos b ≡ pos (a · b)
-    =⟨ “Mutual implication” ⟩
-      (pos b ⇒ pos (a · b)) ∧ (pos (a · b) ⇒ pos b)
-    =⟨ “Identity of ∧” , Assumption `pos a` ⟩
-      (pos b ∧ pos a ⇒ pos (a · b)) ∧ (pos (a · b) ⇒ pos b)
-    =⟨ “Positivity under ·” , “Identity of ∧”⟩
-      pos (a · b) ⇒ pos b
-    =⟨ “Subproof” with Assumption `pos a` ⟩ 
-      true
-
-      Theorem “Antitonicity of ⇒” “Left-antitonicity of ⇒”:
-    (p ⇒ q) ⇒ ((q ⇒ r) ⇒ (p ⇒ r))
-Proof:
-    (p ⇒ q)
-  ⇒⟨ “Strengthening” (3.76a) ⟩
-    (p ⇒ q) ∨ r
-  =⟨ “Contrapositive”  ⟩
-    (¬ q ⇒ ¬ p) ∨ r
-  =⟨ “Distributivity of ∨ over ⇒” ⟩
-    (¬ q ∨ r) ⇒ (¬ p ∨ r)
-  =⟨ “Material implication” ⟩
-    (q ⇒ r) ⇒ (p ⇒ r)
-
-Theorem “Left-monotonicity of ∨” “Monotonicity of ∨”:
-    (p ⇒ q) ⇒ (p ∨ r) ⇒ (q ∨ r)
-Proof:
-  Assuming `p ⇒ q`:
-      p ∨ r
-    ⇒⟨ “Strengthening” (3.76a) ⟩ 
-      (p ∨ q) ∨ r
-    =⟨ Assumption `p ⇒ q` with “Definition of ⇒” (3.57) ⟩ 
-      q ∨ r
-
-      Lemma “Cancellation of multiplication with successor”:
-    suc c · a = suc c · b  ≡  a = b
-Proof:
-  By induction on `a : ℕ`:
-    Base case `suc c · 0 = suc c · b  ≡  0 = b`:
-        suc c · 0 = suc c · b
-      ≡⟨ “Right-zero of ·” ⟩
-        0 = suc c · b
-      ≡⟨ “Definition of · for `suc`” ⟩
-        0 = b + c · b
-      ≡⟨ “Zero sum” ⟩
-        0 = b ∧ 0 = c · b
-      ≡⟨ Substitution ⟩
-        0 = b ∧ (0 = c · z)[z ≔ b]
-      ≡⟨ “Replacement” ⟩
-        0 = b ∧ (0 = c · z)[z ≔ 0]
-      ≡⟨ Substitution ⟩
-        0 = b ∧ 0 = c · 0
-      ≡⟨ “Right-zero of ·” ⟩
-        0 = b ∧ true
-      ≡⟨ “Identity of ∧” ⟩
-        0 = b
-    Induction step `suc c · suc a = suc c · b  ≡  suc a = b`:
-      By induction on `b : ℕ`:
-        Base case `suc c · suc a = suc c · 0  ≡  suc a = 0`:
-            suc c · suc a = suc c · 0
-          ≡⟨ “Right-zero of ·” ⟩
-            suc c · suc a = 0
-          ≡⟨ “Zero is not product of successors” ⟩
-            false
-          ≡⟨ “Zero is not successor” ⟩
-            suc a = 0
-        Induction step `suc c · suc a = suc c · suc b  ≡  suc a = suc b`:
-            suc c · suc a = suc c · suc b
-          ≡⟨ “Multiplying the successor” ⟩
-            suc c + suc c · a = suc c + suc c · b
-          ≡⟨ “Cancellation of +” ⟩
-            suc c · a = suc c · b
-          ≡⟨ Induction hypothesis `suc c · a = suc c · b  ≡  a = b` ⟩
-            a = b
-          ≡⟨ “Cancellation of `suc`” ⟩
-            suc a = suc b
-      
-Theorem “Cancellation of ·”:
-    c ≠ 0 ⇒ (c · a = c · b  ≡  a = b)
-Proof:
-  By cases: `c = 0`, `c = suc (pred c)`
-    Completeness: By “Zero or successor of predecessor”
-    Case `c = 0`:
-        c ≠ 0 ⇒ (c · a = c · b  ≡  a = b)
-      =⟨ Assumption `c = 0`⟩
-        0 ≠ 0 ⇒ (c · a = c · b  ≡  a = b)
-      =⟨ “Irreflexivity of ≠” ⟩
-        false ⇒ (c · a = c · b  ≡  a = b)
-      =⟨ “ex falso quodlibet” ⟩
-        true
-    Case `c = suc (pred c)`:
-         c ≠ 0 ⇒ (c · a = c · b  ≡  a = b)
-      =⟨ Assumption `c = suc (pred c)`⟩
-         suc (pred c) ≠ 0 ⇒ (suc (pred c) · a = suc (pred c) · b  ≡  a = b)
-      =⟨ “Zero is not successor” ⟩
-         true ⇒ (suc (pred c) · a = suc (pred c) · b  ≡  a = b)
-      =⟨ “Cancellation of multiplication with successor” ⟩
-         true ⇒ true
-      =⟨ “Reflexivity of ⇒” ⟩
-         true    
-
-         Theorem “Zero or successor of predecessor”: n = 0 ∨ n = suc (pred n)
-Proof:
-    n ≠ 0 ≡ n = suc (pred n)    — This is “Predecessor of non-zero”
+    n = n₀ ∧ (m - n = m₀ - z)[z ≔ n]
+  ≡⟨ “Replacement”, Substitution ⟩
+    n = n₀ ∧ (m - n = m₀ - n₀)
+  ⇒⟨ “Weakening” ⟩
+    m - n = m₀ - n₀
+  ⇒⁅ while n ≠ 0 do
+        n := n - 1 ⍮
+        m := m - 1
+      od ⁆⟨ “While” with subproof:
+          n ≠ 0 ∧ m - n = m₀ - n₀  ╍╍╍  Loop condition and invariant
+        ⇒ ⟨ “Weakening” ⟩
+          m - n = m₀ - n₀
+        ≡⟨ “Identity of +” ⟩
+          m - n + 0 = m₀ - n₀
+        ≡⟨ Fact `1 - 1 = 0` ⟩
+          m - n + (1 - 1) = m₀ - n₀
+        ≡⟨ “Subtraction” ⟩
+          m + - n + (1 + - 1) = m₀ - n₀
+        ≡⟨ “Symmetry of +” ⟩
+          m + 1 + - n + - 1 = m₀ - n₀
+        ≡⟨ “Subtraction” ⟩
+          m + 1 - n - 1 = m₀ - n₀
+        ≡⟨ “Subtraction of addition”⟩
+          (m + 1) - (n + 1) = m₀ - n₀
+        ≡⟨ (15.26) ⟩
+          (m - 1) - (n - 1) = m₀ - n₀
+        ⇒⁅ n := n - 1 ⁆⟨ “Assignment” with substitution ⟩
+          (m - 1) - n = m₀ - n₀
+        ⇒⁅ m := m - 1 ⁆⟨ “Assignment” with substitution ⟩
+          m - n = m₀ - n₀
+    ⟩
+    ¬ (n ≠ 0) ∧ m - n = m₀ - n₀  ╍╍╍ Negated loop condition, and invariant
   =⟨ “Definition of ≠” ⟩
-    ¬ (n = 0) ≡ n = suc (pred n)
-  =⟨ “Mutual implication” ⟩
-    (¬ (n = 0) ⇒ n = suc (pred n)) ∧ (n = suc (pred n) ⇒ ¬ (n = 0))
-  ⇒⟨ “Strengthening” (3.76b) ⟩
-    ¬ (n = 0) ⇒ n = suc (pred n)
-  =⟨ “Material implication” ⟩
-    ¬ ¬ (n = 0) ∨ n = suc (pred n)
+    ¬ ¬ (n = 0) ∧ m - n = m₀ - n₀
   =⟨ “Double negation” ⟩
-    n = 0 ∨ n = suc (pred n)
- 
-Theorem “Right-identity of subtraction”: m - 0 = m
-Proof:
-  By cases: `m = 0`, `m = suc (pred m)`
-    Completeness: By “Zero or successor of predecessor”
-    Case `m = 0`:
-        m - 0 = m
-      ≡⟨ Assumption `m = 0` ⟩
-        0 - 0 = 0
-      — This is “Subtraction from zero”
-    Case `m = suc (pred m)`:
-        m - 0
-      =⟨ Assumption `m = suc (pred m)` ⟩
-        (suc (pred m)) - 0
-      =⟨ “Subtraction of zero from successor” ⟩
-        suc (pred m)
-      =⟨ Assumption `m = suc (pred m)` ⟩
-        m
+    n = 0 ∧ m - n = m₀ - n₀
+  =⟨ Substitution ⟩
+    n = 0 ∧ (m - z = m₀ - n₀)[z ≔ n]
+  =⟨ “Replacement” with Substitution ⟩
+    n = 0 ∧ (m - 0 = m₀ - n₀)
+  ⇒⟨ “Weakening” ⟩
+    m - 0 = m₀ - n₀
+  =⟨ “Right-identity of -” ⟩
+    m = m₀ - n₀
 
-        Theorem (3.88) “Replace by `false`”: p ∨ E[z ≔ p] ≡ p ∨ E[z ≔ false]
+Theorem “M2.3b”: Ran (R ⨾ S) = Ran (Ran R ◁ S)
 Proof:
-    p ∨ E[z ≔ p]
-  ≡⟨ “Double negation” ⟩
-    ¬ ¬ p ∨ E[z ≔ p]
-  ≡⟨ “Material implication” ⟩
-    ¬ p ⇒ E[z ≔ p]
-  ≡⟨ “Definition of ¬ from ≡” ⟩
-    (p ≡ false) ⇒ E[z ≔ p]
-  ≡⟨ “Definition of ≡” ⟩
-    (p = false) ⇒ E[z ≔ p]
-  ≡⟨ “Replacement” ⟩
-    (p = false) ⇒ E[z ≔ false]
-  ≡⟨ “Definition of ≡” ⟩
-    (p ≡ false) ⇒ E[z ≔ false]
-  ≡⟨ “Definition of ¬ from ≡” ⟩
-    ¬ p ⇒ E[z ≔ false]
-  ≡⟨ “Material implication” ⟩
-    ¬ ¬ p ∨ E[z ≔ false]
-  ≡⟨ “Double negation” ⟩
-    p ∨ E[z ≔ false]
+  Using “Set extensionality”:
+    For any `y`:
+        y ∈ Ran (R ⨾ S) 
+      =⟨“Membership in `Ran`”⟩ 
+        ∃ x • x ⦗ R ⨾ S ⦘ y 
+      =⟨ “Relation composition” ⟩ 
+        ∃ x • (∃ b • x ⦗ R ⦘ b ∧ b ⦗ S ⦘ y ) 
+      =⟨ “Trading for ∃” ⟩ 
+        ∃ x • (∃ b ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y )
+      =⟨ “Nesting for ∃” ⟩ 
+        ∃ x, b ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y 
+      =⟨ “Dummy list permutation for ∃” ⟩ 
+        ∃ b, x ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y 
+      =⟨ “Nesting for ∃” ⟩ 
+        ∃ b • (∃ x ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y)
+      =⟨ (9.22) ⟩ 
+        ∃ b • ((b ⦗ S ⦘ y) ∧ (∃ x  •  x ⦗ R ⦘ b))
+      =⟨ “Membership in `Ran`” ⟩ 
+        ∃ b • ((b ⦗ S ⦘ y) ∧ (b ∈ Ran R))
+      =⟨ “Relationship via ◁” ⟩ 
+        ∃ b • (b ⦗ Ran R ◁ S ⦘ y)
+      =⟨ “Membership in `Ran`” ⟩ 
+        y ∈ Ran (Ran R ◁ S )
 
-Theorem (3.89) “Shannon”: E[z ≔ p] ≡ (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
+Theorem “M2.3a”:   A ◁ R = id A ⨾ R
 Proof:
-    E[z ≔ p]
-  =⟨ “Identity of ∧”⟩
-    true ∧ E[z ≔ p] 
-  =⟨ “LEM”⟩
-    (p ∨ ¬ p) ∧ E[z ≔ p] 
-  =⟨ “Distributivity of ∧ over ∨”⟩
-    (p ∧ E[z ≔ p]) ∨ (¬ p ∧ E[z ≔ p])
-  =⟨ “Replace by `true`” (3.87)⟩
-    (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ p])
-  =⟨ “Definition of ¬ from ≡”⟩
-    (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ p])
-  =⟨ “Replacement” (3.84a) with “Definition of ≡”⟩
-    (p ∧ E[z ≔ true]) ∨ ((p ≡ false) ∧ E[z ≔ false])
-  =⟨ “Definition of ¬ from ≡” ⟩
-    (p ∧ E[z ≔ true]) ∨ (¬ p ∧ E[z ≔ false])
-    Theorem (3.44) (3.44d) “Absorption”: ¬ p ∨ (p ∧ q) ≡ ¬ p ∨ q
-Theorem (3.64) “Self-distributivity of ⇒”:
-    p ⇒ (q ⇒ r) ≡ (p ⇒ q) ⇒ (p ⇒ r)
+  Using “Relation extensionality”:
+    For any `x, y`:
+        x ⦗ A ◁ R ⦘ y
+      ≡⟨ “Domain restriction” ⟩
+        x ∈ A ∧ x ⦗ R ⦘ y
+      ≡⟨ “Identity of ⨾” ⟩
+        x ∈ A ∧ x ⦗ 𝕀 ⨾ R ⦘ y
+      ≡⟨ “Relation composition” ⟩
+        x ∈ A ∧ (∃ b • x ⦗ 𝕀 ⦘ b ∧ b ⦗ R ⦘ y )
+      ≡⟨ “Relationship via 𝕀” ⟩
+        x ∈ A ∧ (∃ b • x = b ∧ b ⦗ R ⦘ y )
+      ≡⟨ “Trading for ∃” ⟩
+        x ∈ A ∧ (∃ b ❙ x = b • b ⦗ R ⦘ y )
+      ≡⟨ “Distributivity of ∧ over ∃” ⟩
+        (∃ b ❙ x = b • x ∈ A ∧ b ⦗ R ⦘ y)
+      ≡⟨ “Trading for ∃” ⟩
+        (∃ b • x = b ∧ x ∈ A ∧ b ⦗ R ⦘ y)
+      ≡⟨ “Associativity of ∧” ⟩
+        (∃ b • x = b ∧ x ∈ A ∧ b ⦗ R ⦘ y)
+      ≡⟨ Substitution ⟩
+        ∃ b • x = b ∧ (g ∈ A ∧ b ⦗ R ⦘ y)[g ≔ x]
+      ≡⟨ “Replacement” with Substitution ⟩
+        ∃ b • x = b ∧ b ∈ A ∧ b ⦗ R ⦘ y
+      ≡⟨ “Replacement” with Substitution ⟩
+        ∃ b • x = b ∧ b ∈ A ∧ b ⦗ R ⦘ y
+      ≡⟨ “Idempotency of ∧” ⟩
+        ∃ b • x = b ∈ A ∧ b ⦗ R ⦘ y
+      ≡⟨ “Relationship via `id`” ⟩
+        ∃ b • x ⦗ id A ⦘ b ∧ b ⦗ R ⦘ y
+      ≡⟨ “Relation composition” ⟩
+        x ⦗ id A ⨾ R ⦘ y
+
+Theorem “Predecessor of non-zero”:
+    n ≠ 0  ≡  suc (pred n) = n
 Proof:
-    (p ⇒ q) ⇒ (p ⇒ r)
-  ≡⟨“Definition of ⇒”⟩
-    ¬ (p ⇒ q) ∨ (p ⇒ r)
-  ≡⟨“Definition of ⇒”⟩
-    ¬ (¬ p ∨ q) ∨ (¬ p ∨ r)
-  ≡⟨“De Morgan”⟩
-    (¬ ¬ p ∧ ¬ q) ∨ (¬ p ∨ r)
-  ≡⟨“Double negation”⟩
-    (p ∧ ¬ q) ∨ (¬ p ∨ r)
-  ≡⟨“Distributivity of ∨ over ∧”⟩
-    (p ∨ (¬ p ∨ r)) ∧ (¬ q ∨ (¬ p ∨ r))
-  ≡⟨“Associativity of ∨”⟩
-    ((p ∨ ¬ p) ∨ r) ∧ ((¬ q ∨ ¬ p) ∨ r)
-  ≡⟨“LEM”⟩
-    (true ∨ r) ∧ ((¬ q ∨ ¬ p) ∨ r)
-  ≡⟨“Zero of ∨”⟩
-    true ∧ ((¬ q ∨ ¬ p) ∨ r)
-  ≡⟨“Identity of ∧”⟩
-    ((¬ q ∨ ¬ p) ∨ r)
-  ≡⟨“Definition of implication”⟩
-    p ⇒ (q ⇒ r)
-Theorem (3.48): p ∧ q ≡ p ∧ ¬ q ≡ ¬ p
+  By induction on `n : ℕ`:
+    Base case `0 ≠ 0  ≡  suc (pred 0) = 0`:
+        suc (pred 0) = 0
+      =⟨ “Predecessor of zero” ⟩
+        suc 0 = 0
+      =⟨ “Zero is not successor” ⟩
+        false
+      =⟨ “Irreflexivity of ≠” ⟩
+        0 ≠ 0    
+    Induction step `suc n ≠ 0  ≡  suc (pred (suc n)) = suc n`:
+        suc n ≠ 0  ≡  suc (pred (suc n)) = suc n
+      = ⟨ “Predecessor of successor” ⟩
+        suc n ≠ 0  ≡  suc n = suc n
+      = ⟨ “Reflexivity of =” ⟩
+        suc n ≠ 0 ≡ true
+      =⟨ “Definition of ≠” ⟩
+        ¬ (suc n = 0) ≡ true
+      =⟨ “Zero is not successor” ⟩
+        ¬ (false) ≡ true
+      =⟨ “Negation of `false`” ⟩
+        true ≡ true
+      =⟨ “Identity of ≡” ⟩
+        true
+
+Theorem “M2.1b”:
+    reflexive E  ∧  univalent F  ∧  E ⊆ F ⨾ F ˘
+  ⇒ E ⨾ F = F
 Proof:
-    p ∧ ¬ q ≡ ¬ p
-  ≡⟨“Golden rule”⟩
-    p ≡ ¬ q ≡ p ∨ ¬ q ≡ ¬ p
-  ≡⟨“Symmetry of ≡”⟩
-    ¬ q ≡ (p ∨ ¬ q ≡ p) ≡ ¬ p
-  ≡⟨(3.32)⟩
-    ¬ q ≡ p ∨ q ≡ ¬ p
-  ≡⟨“Symmetry of ≡”⟩
-    ¬ p ≡ ¬ q ≡ p ∨ q
-  ≡⟨“Cancellation of ¬”⟩
-     p ≡  q ≡ p ∨ q
-  ≡⟨“Golden rule”⟩
-    p ∧ q
+  Assuming `reflexive E` and using with “Definition of univalence”,
+           `univalent F` and using with “Definition of univalence”,
+           `E ⊆ F ⨾ F ˘`:
+    Using “Mutual inclusion”:
+      Subproof for `E ⨾ F ⊆ F`:
+            E ⨾ F
+        ⊆⟨ “Monotonicity of ⨾” with Assumption `E ⊆ F ⨾ F ˘` ⟩
+            (F ⨾ F ˘) ⨾ F
+        =⟨ “Associativity of ⨾” ⟩
+            F ⨾ (F ˘ ⨾ F)
+        ⊆⟨ “Monotonicity of ⨾” with Assumption `univalent F` ⟩
+            F ⨾ 𝕀
+        =⟨ “Identity of ⨾” ⟩
+            F
+      Subproof for `F ⊆ E ⨾ F`:
+        Using “Relation inclusion”:
+          Subproof for `∀ x • (∀ y • x ⦗ F ⦘ y ⇒ x ⦗ E ⨾ F ⦘ y )`:
+            For any `x`, `y`:
+                x ⦗ F ⦘ y ⇒ x ⦗ E ⨾ F ⦘ y
+              =⟨ “Relation composition” ⟩
+                x ⦗ F ⦘ y ⇒ (∃ b • x ⦗ E ⦘ b ∧ b ⦗ F ⦘ y )
+              =⟨ “Relation composition” ⟩
+                x ⦗ F ⦘ y ⇒ (∃ b • x ⦗ E ⦘ b ∧ b ⦗ F ⦘ y )
+              ⇒⟨ ?, “Trading for ∃” ⟩
+                ∃ z • x ⦗ E ⦘ z ∧ z ⦗ F ⦘ y
+              ⇒⟨ “Relation composition” ⟩
+                x ⦗ E ⨾ F ⦘ y
+                
+Theorem “M2.1a”: R = R ⨾ (𝕀 ∩ R ˘ ⨾ R)
+Proof:
+  Using “Mutual inclusion”:
+    Subproof for `R ⊆ R ⨾ (𝕀 ∩ R ˘ ⨾ R)`:
+        R ⨾ (𝕀 ∩ R ˘ ⨾ R)
+      ⊇⟨“Modal rule”⟩
+        (R) ⨾ 𝕀  ∩ R
+      =⟨“Identity of ⨾”⟩
+        (R) ⨾ 𝕀  ∩ R ⨾ 𝕀
+      =⟨“Idempotency of ∩”⟩
+        (R) ⨾ 𝕀 
+      =⟨“Identity of ⨾”⟩
+        R
+    Subproof for `R ⨾ (𝕀 ∩ R ˘ ⨾ R)  ⊆ R `:
+        R ⨾ (𝕀 ∩ R ˘ ⨾ R)
+      ⊆⟨ “Sub-distributivity of ⨾ over ∩” ⟩
+        R ⨾ 𝕀 ∩ R ⨾ (R ˘ ⨾ R)
+      =⟨ “Identity of ⨾” ⟩
+        R ∩ (R ⨾ R ˘ ⨾ R)
+      =⟨ “Set inclusion via ∩” with “Co-difunctionality” ⟩
+        R
+        
+Theorem (11.6) “Mathematical formulation of set comprehension”:
+     {x ❙ P • E } = { y ❙ (∃ x ❙ P • y = E) }
+Proof:
+  Using “Set extensionality”:
+    Subproof for `∀ e  •  e ∈ {x ❙ P • E }  ≡  e ∈ { y ❙ (∃ x ❙ P • y = E) }`:
+      For any `e`:
+          e ∈ { y ❙ (∃ x ❙ P • y = E) }
+        ≡⟨“Simple Membership”⟩
+          (∃ x ❙ P • y = E)[y ≔ e]
+        ≡⟨ Substitution ⟩
+          (∃ x ❙ P • e = E)
+        ≡⟨ “Set membership” ⟩
+          e ∈ {x ❙ P • E }
+Theorem (Ex6.5.1): x < 2  ∧  5 < y  ⇒  x < 3 < y
+Proof:
+    x < 2  ∧  5 < y
+  ⇒⟨ “Monotonicity of ∧” with 
+     “Right-monotonicity of <” with Fact `2 ≤ 3`  ⟩
+    x < 3  ∧  5 < y
+  ⇒⟨ “Monotonicity of ∧” with 
+     “Left-antitonicity of <” with Fact `3 ≤ 5` ⟩
+    x < 3 < y
+
+Theorem (Ex6.5.2): (x < 2  ⇒  5 ≤ y)  ⇒  (x < 1 ⇒ 4 ≤ y)
+Proof:
+    x < 2  ⇒  5 ≤ y
+  ⇒⟨ “Antitonicity of ⇒” with
+     “Right-monotonicity of <” with Fact `1 ≤ 2` ⟩
+    x < 1  ⇒  5 ≤ y
+  ⇒⟨ “Monotonicity of ⇒” with
+     “Left-antitonicity of ≤” with Fact `4 ≤ 5` ⟩
+    x < 1  ⇒  4 ≤ y
+
+        
+Theorem “Symmetry of +”: ∀ m • ∀ n • m + n = n + m
+Proof:
+  Using “Induction over ℕ”:
+    Subproof:
+      For any `n : ℕ`:
+          0 + n
+        =⟨ “Definition of +” ⟩
+          n
+        =⟨ “Right-identity of +”  ⟩
+          n + 0
+    Subproof:
+      For any `m : ℕ` satisfying “IndHyp” `∀ n • m + n = n + m`:
+        For any `n : ℕ`:
+            (m + 1) + n
+          =⟨ “Definition of +” ⟩
+            (m + n) + 1
+          =⟨ Assumption “IndHyp” ⟩
+            (n + m) + 1
+          =⟨ “Definition of +” ⟩
+            (n + 1) + m
+          =⟨ “Shifting successor over +” ⟩
+            n + (m + 1)
+Theorem “Univalence of composition”:
+     univalent R ⇒ univalent S ⇒ univalent (R ⨾ S)
+Proof:
+  Assuming `univalent R` and using with “Definition of univalence”,
+           `univalent S` and using with “Definition of univalence”:
+    Using “Definition of univalence”:
+        (R ⨾ S) ˘ ⨾ (R ⨾ S)
+      =⟨ “Converse of ⨾” ⟩
+        (S ˘ ⨾ R ˘) ⨾ R ⨾ S
+      =⟨ “Associativity of ⨾” ⟩
+        S ˘ ⨾ (R ˘ ⨾ R) ⨾ S
+      ⊆⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with
+         Assumption `univalent R` ⟩
+        S ˘ ⨾ 𝕀 ⨾ S
+      =⟨ “Identity of ⨾” ⟩
+        S ˘ ⨾ S
+      ⊆⟨ Assumption `univalent S` ⟩
+        𝕀
+        
+Theorem “Squaring”:
+      true
+    ⇒⁅  i := 0 ⍮
+        s := 0 ⍮
+        d := 1 ⍮
+        while i ≠ n
+          do
+            s := s + d ⍮
+            d := d + 2 ⍮
+            i := i + 1
+          od
+       ⁆ s = n · n
+Proof:
+    true   ╍╍╍  Precondition
+  ≡⟨ “Idempotency of ∧” ⟩
+    true ∧ true 
+  ≡⟨ Fact `1 = 0 + 0 + 1`, Fact `0 = 0 · 0` ⟩
+    1 = 0 + 0 + 1 ∧ 0 = 0 · 0
+  ⇒⁅ i := 0 ⁆⟨ “Assignment” with substitution ⟩
+    1 = i + i + 1 ∧ 0 = i · i
+  ⇒⁅ s := 0 ⁆⟨ “Assignment” with substitution ⟩
+    1 = i + i + 1 ∧ s = i · i
+  ⇒⁅ d := 1 ⁆⟨ “Assignment” with substitution ⟩
+    d = i + i + 1 ∧ s = i · i      ╍╍╍  Invariant
+  ⇒⁅ while i ≠ n do
+        s := s + d ⍮
+        d := d + 2 ⍮
+        i := i + 1
+      od ⁆⟨ “While” with subproof:
+          i ≠ n ∧ d = i + i + 1 ∧ s = i · i  ╍╍╍  Loop condition and invariant
+        ⇒⟨ “Weakening” (3.76b) ⟩
+          d = i + i + 1 ∧ s = i · i
+        =⟨ “Cancellation of +” ⟩   
+          d = i + i + 1 ∧ s + d = i · i + d
+        =⟨ Substitution ⟩ 
+          d = i + i + 1 ∧ (s + d = i · i + z)[z ≔ d]
+        ≡⟨ “Replacement” (3.84a) ⟩ 
+          d = i + i + 1 ∧ (s + d = i · i + z)[z ≔ i + i + 1]
+        ⇒⁅ s := s + d ⁆⟨ “Assignment” with substitution ⟩
+          d = i + i + 1 ∧ s = i · i + i + i + 1
+        ≡⟨ “Cancellation of +” ⟩
+          d + 2 = i + i + 1 + 2 ∧ s = i · i + i + i + 1
+        ⇒⁅ d := d + 2 ⁆⟨ “Assignment” with substitution ⟩
+          d = i + i + 1 + 2 ∧ s = i · i + i + i + 1
+        ≡⟨ “Distributivity of · over +”, “Identity of ·” ⟩
+          d = i + i + 1 + 2 ∧ s = (i + 1) · (i + 1)
+        ⇒⁅ i := i + 1 ⁆⟨ “Assignment” with substitution
+                         and Fact `1 + 1 = 2` ⟩
+          d = i + i + 1 ∧ s = i · i   ╍╍╍  Invariant
+    ⟩
+    ¬ (i ≠ n) ∧ d = i + i + 1 ∧ s = i · i  ╍╍╍ Negated loop condition, and invariant
+  ≡⟨ “Definition of ≠”, “Double negation” ⟩
+    (i = n) ∧ d = i + i + 1 ∧ s = i · i
+  ⇒⟨ “Weakening”  (3.76b) ⟩
+    (i = n) ∧ s = i · i
+  =⟨ Substitution ⟩
+     i = n  ∧ (s = z · z)[z ≔ i]
+  =⟨ “Replacement” (3.84a) , Substitution ⟩
+     i = n  ∧ s = n · n
+  ⇒⟨ “Weakening” (3.76b) ⟩ 
+    s = n · n    ╍╍╍  Postcondition
+
+Theorem “Summing up”:
+      true
+    ⇒⁅  s := 0 ⍮
+        i := 0 ⍮
+        while i ≠ n
+          do
+            s := s + f i ⍮
+            i := i + 1
+          od
+      ⁆
+      s = ∑ j : ℕ ❙ j < n • f j
+Proof:
+    true
+  =⟨ “Reflexivity of =” ⟩ 
+    0 = 0
+  =⟨ “Nothing is less than zero” , “Empty range for ∑” ⟩ 
+    0 = ∑ j : ℕ ❙ j < 0 • f j
+  ⇒⁅ s := 0 ⁆⟨ “Assignment” with substitution ⟩
+    s = ∑ j : ℕ ❙ j < 0 • f j
+  ⇒⁅ i := 0 ⁆⟨ “Assignment” with substitution ⟩ 
+    s = ∑ j : ℕ ❙ j < i • f j
+  ⇒⁅ while i ≠ n do
+        s := s + f i ⍮
+        i := i + 1
+      od ⁆⟨ “While” with subproof:
+          i ≠ n ∧ s = ∑ j : ℕ ❙ j < i • f j  ╍╍╍  Loop condition and invariant
+        ⇒⟨ “Weakening” (3.76b) ⟩ 
+          s = (∑ j : ℕ ❙ j < i • f j) 
+        =⟨ Substitution, “Cancellation of +” ⟩ 
+          s + f i = (∑ j : ℕ ❙ j < i • f j) + (f j)[j ≔ i]
+        =⟨ “Split off term from ∑ at top” ⟩
+          s + f i = ∑ j : ℕ ❙ j < suc i • f j
+        =⟨ “Successor” ⟩    
+          s + f i = ∑ j : ℕ ❙ j < i + 1 • f j
+        ⇒⁅ s := s + f i ⁆⟨ “Assignment” with substitution ⟩
+          s = ∑ j : ℕ ❙ j < i + 1 • f j       
+        ⇒⁅ i := i + 1 ⁆⟨ “Assignment” with substitution ⟩
+          s = ∑ j : ℕ ❙ j < i • f j   ╍╍╍  Invariant
+    ⟩ 
+    ¬ (i ≠ n) ∧ s = ∑ j : ℕ ❙ j < i • f j
+  =⟨ “Definition of ≠”, “Double negation” ⟩
+    (i = n) ∧ s = ∑ j : ℕ ❙ j < i • f j 
+  =⟨ Substitution ⟩
+    (i = n) ∧ (s = ∑ j : ℕ ❙ j < z • f j)[z ≔ i]
+  =⟨ “Replacement” (3.84a) , Substitution ⟩
+    (i = n) ∧ (s = ∑ j : ℕ ❙ j < n • f j)
+  ⇒⟨ “Weakening” (3.76b) ⟩
+    s = ∑ j : ℕ ❙ j < n • f j 
