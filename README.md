@@ -60,65 +60,6 @@ Proof:
   =⟨ “Right-identity of -” ⟩
     m = m₀ - n₀
 
-Theorem “M2.3b”: Ran (R ⨾ S) = Ran (Ran R ◁ S)
-Proof:
-  Using “Set extensionality”:
-    For any `y`:
-        y ∈ Ran (R ⨾ S) 
-      =⟨“Membership in `Ran`”⟩ 
-        ∃ x • x ⦗ R ⨾ S ⦘ y 
-      =⟨ “Relation composition” ⟩ 
-        ∃ x • (∃ b • x ⦗ R ⦘ b ∧ b ⦗ S ⦘ y ) 
-      =⟨ “Trading for ∃” ⟩ 
-        ∃ x • (∃ b ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y )
-      =⟨ “Nesting for ∃” ⟩ 
-        ∃ x, b ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y 
-      =⟨ “Dummy list permutation for ∃” ⟩ 
-        ∃ b, x ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y 
-      =⟨ “Nesting for ∃” ⟩ 
-        ∃ b • (∃ x ❙ x ⦗ R ⦘ b • b ⦗ S ⦘ y)
-      =⟨ (9.22) ⟩ 
-        ∃ b • ((b ⦗ S ⦘ y) ∧ (∃ x  •  x ⦗ R ⦘ b))
-      =⟨ “Membership in `Ran`” ⟩ 
-        ∃ b • ((b ⦗ S ⦘ y) ∧ (b ∈ Ran R))
-      =⟨ “Relationship via ◁” ⟩ 
-        ∃ b • (b ⦗ Ran R ◁ S ⦘ y)
-      =⟨ “Membership in `Ran`” ⟩ 
-        y ∈ Ran (Ran R ◁ S )
-
-Theorem “M2.3a”:   A ◁ R = id A ⨾ R
-Proof:
-  Using “Relation extensionality”:
-    For any `x, y`:
-        x ⦗ A ◁ R ⦘ y
-      ≡⟨ “Domain restriction” ⟩
-        x ∈ A ∧ x ⦗ R ⦘ y
-      ≡⟨ “Identity of ⨾” ⟩
-        x ∈ A ∧ x ⦗ 𝕀 ⨾ R ⦘ y
-      ≡⟨ “Relation composition” ⟩
-        x ∈ A ∧ (∃ b • x ⦗ 𝕀 ⦘ b ∧ b ⦗ R ⦘ y )
-      ≡⟨ “Relationship via 𝕀” ⟩
-        x ∈ A ∧ (∃ b • x = b ∧ b ⦗ R ⦘ y )
-      ≡⟨ “Trading for ∃” ⟩
-        x ∈ A ∧ (∃ b ❙ x = b • b ⦗ R ⦘ y )
-      ≡⟨ “Distributivity of ∧ over ∃” ⟩
-        (∃ b ❙ x = b • x ∈ A ∧ b ⦗ R ⦘ y)
-      ≡⟨ “Trading for ∃” ⟩
-        (∃ b • x = b ∧ x ∈ A ∧ b ⦗ R ⦘ y)
-      ≡⟨ “Associativity of ∧” ⟩
-        (∃ b • x = b ∧ x ∈ A ∧ b ⦗ R ⦘ y)
-      ≡⟨ Substitution ⟩
-        ∃ b • x = b ∧ (g ∈ A ∧ b ⦗ R ⦘ y)[g ≔ x]
-      ≡⟨ “Replacement” with Substitution ⟩
-        ∃ b • x = b ∧ b ∈ A ∧ b ⦗ R ⦘ y
-      ≡⟨ “Replacement” with Substitution ⟩
-        ∃ b • x = b ∧ b ∈ A ∧ b ⦗ R ⦘ y
-      ≡⟨ “Idempotency of ∧” ⟩
-        ∃ b • x = b ∈ A ∧ b ⦗ R ⦘ y
-      ≡⟨ “Relationship via `id`” ⟩
-        ∃ b • x ⦗ id A ⦘ b ∧ b ⦗ R ⦘ y
-      ≡⟨ “Relation composition” ⟩
-        x ⦗ id A ⨾ R ⦘ y
 
 Theorem “Predecessor of non-zero”:
     n ≠ 0  ≡  suc (pred n) = n
@@ -257,37 +198,8 @@ Proof:
             (n + 1) + m
           =⟨ “Shifting successor over +” ⟩
             n + (m + 1)
-Theorem “Univalence of composition”:
-     univalent R ⇒ univalent S ⇒ univalent (R ⨾ S)
-Proof:
-  Assuming `univalent R` and using with “Definition of univalence”,
-           `univalent S` and using with “Definition of univalence”:
-    Using “Definition of univalence”:
-        (R ⨾ S) ˘ ⨾ (R ⨾ S)
-      =⟨ “Converse of ⨾” ⟩
-        (S ˘ ⨾ R ˘) ⨾ R ⨾ S
-      =⟨ “Associativity of ⨾” ⟩
-        S ˘ ⨾ (R ˘ ⨾ R) ⨾ S
-      ⊆⟨ “Monotonicity of ⨾” with “Monotonicity of ⨾” with
-         Assumption `univalent R` ⟩
-        S ˘ ⨾ 𝕀 ⨾ S
-      =⟨ “Identity of ⨾” ⟩
-        S ˘ ⨾ S
-      ⊆⟨ Assumption `univalent S` ⟩
-        𝕀
-        
-Theorem “Squaring”:
-      true
-    ⇒⁅  i := 0 ⍮
-        s := 0 ⍮
-        d := 1 ⍮
-        while i ≠ n
-          do
-            s := s + d ⍮
-            d := d + 2 ⍮
-            i := i + 1
-          od
-       ⁆ s = n · n
+            
+
 Proof:
     true   ╍╍╍  Precondition
   ≡⟨ “Idempotency of ∧” ⟩
