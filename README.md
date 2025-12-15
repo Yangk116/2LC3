@@ -61,33 +61,6 @@ Proof:
     m = m₀ - n₀
 
 
-Theorem “Predecessor of non-zero”:
-    n ≠ 0  ≡  suc (pred n) = n
-Proof:
-  By induction on `n : ℕ`:
-    Base case `0 ≠ 0  ≡  suc (pred 0) = 0`:
-        suc (pred 0) = 0
-      =⟨ “Predecessor of zero” ⟩
-        suc 0 = 0
-      =⟨ “Zero is not successor” ⟩
-        false
-      =⟨ “Irreflexivity of ≠” ⟩
-        0 ≠ 0    
-    Induction step `suc n ≠ 0  ≡  suc (pred (suc n)) = suc n`:
-        suc n ≠ 0  ≡  suc (pred (suc n)) = suc n
-      = ⟨ “Predecessor of successor” ⟩
-        suc n ≠ 0  ≡  suc n = suc n
-      = ⟨ “Reflexivity of =” ⟩
-        suc n ≠ 0 ≡ true
-      =⟨ “Definition of ≠” ⟩
-        ¬ (suc n = 0) ≡ true
-      =⟨ “Zero is not successor” ⟩
-        ¬ (false) ≡ true
-      =⟨ “Negation of `false`” ⟩
-        true ≡ true
-      =⟨ “Identity of ≡” ⟩
-        true
-
 Theorem “M2.1b”:
     reflexive E  ∧  univalent F  ∧  E ⊆ F ⨾ F ˘
   ⇒ E ⨾ F = F
@@ -200,55 +173,255 @@ Proof:
             n + (m + 1)
             
 
+Theorem “Correctness of `isPrefixOf`”:
+      xs = xs₀ ∧ zs = zs₀
+    ⇒⁅  r := true ⍮
+        while r ∧ xs ≠ 𝜖
+          do
+            if zs = 𝜖
+            then
+              r := false
+            else
+              r := (head xs = head zs) ⍮
+              xs := tail xs ⍮
+              zs := tail zs
+            fi
+          od
+      ⁆
+      (r ≡ xs₀ isPrefixOf zs₀)
 Proof:
-    true   ╍╍╍  Precondition
-  ≡⟨ “Idempotency of ∧” ⟩
-    true ∧ true 
-  ≡⟨ Fact `1 = 0 + 0 + 1`, Fact `0 = 0 · 0` ⟩
-    1 = 0 + 0 + 1 ∧ 0 = 0 · 0
-  ⇒⁅ i := 0 ⁆⟨ “Assignment” with substitution ⟩
-    1 = i + i + 1 ∧ 0 = i · i
-  ⇒⁅ s := 0 ⁆⟨ “Assignment” with substitution ⟩
-    1 = i + i + 1 ∧ s = i · i
-  ⇒⁅ d := 1 ⁆⟨ “Assignment” with substitution ⟩
-    d = i + i + 1 ∧ s = i · i      ╍╍╍  Invariant
-  ⇒⁅ while i ≠ n do
-        s := s + d ⍮
-        d := d + 2 ⍮
-        i := i + 1
-      od ⁆⟨ “While” with subproof:
-          i ≠ n ∧ d = i + i + 1 ∧ s = i · i  ╍╍╍  Loop condition and invariant
-        ⇒⟨ “Weakening” (3.76b) ⟩
-          d = i + i + 1 ∧ s = i · i
-        =⟨ “Cancellation of +” ⟩   
-          d = i + i + 1 ∧ s + d = i · i + d
-        =⟨ Substitution ⟩ 
-          d = i + i + 1 ∧ (s + d = i · i + z)[z ≔ d]
-        ≡⟨ “Replacement” (3.84a) ⟩ 
-          d = i + i + 1 ∧ (s + d = i · i + z)[z ≔ i + i + 1]
-        ⇒⁅ s := s + d ⁆⟨ “Assignment” with substitution ⟩
-          d = i + i + 1 ∧ s = i · i + i + i + 1
-        ≡⟨ “Cancellation of +” ⟩
-          d + 2 = i + i + 1 + 2 ∧ s = i · i + i + i + 1
-        ⇒⁅ d := d + 2 ⁆⟨ “Assignment” with substitution ⟩
-          d = i + i + 1 + 2 ∧ s = i · i + i + i + 1
-        ≡⟨ “Distributivity of · over +”, “Identity of ·” ⟩
-          d = i + i + 1 + 2 ∧ s = (i + 1) · (i + 1)
-        ⇒⁅ i := i + 1 ⁆⟨ “Assignment” with substitution
-                         and Fact `1 + 1 = 2` ⟩
-          d = i + i + 1 ∧ s = i · i   ╍╍╍  Invariant
-    ⟩
-    ¬ (i ≠ n) ∧ d = i + i + 1 ∧ s = i · i  ╍╍╍ Negated loop condition, and invariant
-  ≡⟨ “Definition of ≠”, “Double negation” ⟩
-    (i = n) ∧ d = i + i + 1 ∧ s = i · i
-  ⇒⟨ “Weakening”  (3.76b) ⟩
-    (i = n) ∧ s = i · i
-  =⟨ Substitution ⟩
-     i = n  ∧ (s = z · z)[z ≔ i]
-  =⟨ “Replacement” (3.84a) , Substitution ⟩
-     i = n  ∧ s = n · n
-  ⇒⟨ “Weakening” (3.76b) ⟩ 
-    s = n · n    ╍╍╍  Postcondition
+    xs = xs₀ ∧ zs = zs₀
+  ⇒⟨ “Leibniz” ⟩
+    xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀
+  =⟨ “Identity of ∧” ⟩
+    true ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀
+  ⇒⁅ r := true ⁆⟨ “Assignment” with Substitution ⟩
+    r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀
+  ⇒⁅   while r ∧ xs ≠ 𝜖
+         do
+           if zs = 𝜖
+           then
+             r := false
+           else
+             r := (head xs = head zs) ⍮
+             xs := tail xs ⍮
+             zs := tail zs
+           fi
+         od
+   ⁆⟨ “While” with Subproof:
+        Using “Conditional”:
+          Subproof:
+              zs = 𝜖 ∧ r ∧ xs ≠ 𝜖 ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            =⟨ “Abbreviated replacement” ⟩
+              zs = 𝜖 ∧ r ∧ xs ≠ 𝜖 ∧ (r ∧ xs isPrefixOf 𝜖 ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ “Weakening” ⟩
+              xs ≠ 𝜖 ∧ (r ∧ xs isPrefixOf 𝜖 ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ Monotonicity with “Non-empty-sequence decomposition” ⟩
+              xs = head xs ◃ tail xs ∧ (r ∧ xs isPrefixOf 𝜖 ≡ xs₀ isPrefixOf zs₀)
+            =⟨ “Abbreviated replacement” ⟩
+              xs = head xs ◃ tail xs ∧ (r ∧ (head xs ◃ tail xs) isPrefixOf 𝜖 ≡ xs₀ isPrefixOf zs₀)
+            =⟨ “Definition of `isPrefixOf`”, “Zero of ∧” ⟩
+              xs = head xs ◃ tail xs ∧ (false ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ “Weakening” ⟩
+              false ≡ xs₀ isPrefixOf zs₀
+            =⟨ “Zero of ∧” ⟩
+              false ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀
+            ⇒⁅ r := false ⁆⟨ “Assignment” with Substitution ⟩
+              r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀
+          Subproof:
+              ¬ (zs = 𝜖) ∧ r ∧ xs ≠ 𝜖 ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            =⟨ “Definition of ≠”, “Identity of ≡”, “Definition of ≡” ⟩
+              zs ≠ 𝜖 ∧ (r = true) ∧ xs ≠ 𝜖 ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            =⟨ “Abbreviated replacement”, “Identity of ∧” ⟩
+              zs ≠ 𝜖 ∧ (r = true) ∧ xs ≠ 𝜖 ∧ (xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ “Weakening” ⟩
+              zs ≠ 𝜖 ∧ xs ≠ 𝜖 ∧ (xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ Monotonicity with “Non-empty-sequence decomposition” ⟩
+              (zs = head zs ◃ tail zs) ∧ xs ≠ 𝜖 ∧ (xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ Monotonicity with “Non-empty-sequence decomposition” ⟩
+              (zs = head zs ◃ tail zs) ∧ (xs = head xs ◃ tail xs) ∧ (xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+            =⟨ “Abbreviated replacement” ⟩
+              (zs = head zs ◃ tail zs) ∧ (xs = head xs ◃ tail xs) ∧ ((head xs ◃ tail xs) isPrefixOf (head zs ◃ tail zs) ≡ xs₀ isPrefixOf zs₀)
+            ⇒⟨ “Weakening” ⟩
+              (head xs ◃ tail xs) isPrefixOf (head zs ◃ tail zs) ≡ xs₀ isPrefixOf zs₀
+            =⟨ “Definition of `isPrefixOf`” ⟩
+              (head xs = head zs) ∧ (tail xs) isPrefixOf (tail zs) ≡ xs₀ isPrefixOf zs₀
+            ⇒⁅ r := (head xs = head zs) ⁆⟨ “Assignment” with Substitution ⟩
+              r ∧ (tail xs) isPrefixOf (tail zs) ≡ xs₀ isPrefixOf zs₀
+            ⇒⁅ xs := tail xs ⁆⟨ “Assignment” with Substitution ⟩
+              r ∧ xs isPrefixOf (tail zs) ≡ xs₀ isPrefixOf zs₀
+            ⇒⁅ zs := tail zs ⁆⟨ “Assignment” with Substitution ⟩
+              r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀
+      ⟩
+    ¬ (r ∧ xs ≠ 𝜖) ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+  =⟨ “De Morgan”, “Negation of ≠” ⟩
+    (¬ r ∨ xs = 𝜖) ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+  =⟨ “Distributivity of ∧ over ∨” ⟩
+    (¬ r ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)) ∨ (xs = 𝜖 ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀))
+  ⇒⟨ Subproof:
+       Using “Case analysis”:
+         Subproof for `(¬ r ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)) ⇒ (r ≡ xs₀ isPrefixOf zs₀)`:
+           By cases: `r ≡ true`, `r ≡ false`
+             Completeness:
+                 (r ≡ true) ∨ (r ≡ false)
+               =⟨ “Distributivity of ∨ over ≡” ⟩
+                 r ∨ r ≡ true ∨ r ≡ r ∨ false ≡ true ∨ false
+               =⟨ “Idempotency of ∨”, “Zero of ∨”, “Identity of ∨”, “Identity of ≡” ⟩
+                 true
+             Case (1) `r ≡ true`:
+                 ¬ r ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+               =⟨ Assumption (1), “Definition of `false`”, “Zero of ∧” ⟩
+                 false
+               ⇒⟨ “ex falso quodlibet” ⟩
+                 r ≡ xs₀ isPrefixOf zs₀
+             Case (2) `r ≡ false`:
+                 ¬ r ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+               =⟨ Assumption (2), “Negation of `false`”, “Identity of ∧”, “Zero of ∧” ⟩
+                 false ≡ xs₀ isPrefixOf zs₀
+               =⟨ Assumption (2) ⟩
+                 r ≡ xs₀ isPrefixOf zs₀
+         Subproof for `(xs = 𝜖 ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)) ⇒ (r ≡ xs₀ isPrefixOf zs₀)`:
+             xs = 𝜖 ∧ (r ∧ xs isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+           =⟨ “Abbreviated replacement” ⟩
+             xs = 𝜖 ∧ (r ∧ 𝜖 isPrefixOf zs ≡ xs₀ isPrefixOf zs₀)
+           =⟨ “Definition of `isPrefixOf`”, “Identity of ∧” ⟩
+             xs = 𝜖 ∧ (r ≡ xs₀ isPrefixOf zs₀)
+           ⇒⟨ “Weakening” ⟩
+             r ≡ xs₀ isPrefixOf zs₀
+     ⟩
+     r ≡ xs₀ isPrefixOf zs₀
+Theorem “Specification of `isPrefixOf`”:  xs isPrefixOf zs ≡ (∃ ys • xs ⌢ ys = zs)
+Proof:
+  By induction on `xs : Seq A`:
+    Base case `𝜖 isPrefixOf zs ≡ (∃ ys • 𝜖 ⌢ ys = zs)`:
+        𝜖 isPrefixOf zs ≡ (∃ ys • 𝜖 ⌢ ys = zs)
+      ≡⟨ “Definition of `isPrefixOf`” ⟩
+        true ≡ (∃ ys • 𝜖 ⌢ ys = zs)
+      ≡⟨ “Left-identity of ⌢” ⟩
+        true ≡ (∃ ys • ys = zs)
+      ≡⟨ “Identity of ∧” ⟩
+        true ≡ (∃ ys • ys = zs ∧ true)
+      ≡⟨ “Trading for ∃” ⟩
+        true ≡ (∃ ys ❙ ys = zs • true)
+      ≡⟨ “One-point rule for ∃” ⟩
+        true ≡ true[ys ≔ zs]
+      ≡⟨ Substitution  ⟩
+        true ≡ true — This is “Reflexivity of ≡”
+    Induction step `∀ x : A • (x ◃ xs) isPrefixOf zs ≡ (∃ ys • (x ◃ xs) ⌢ ys = zs)`:
+      For any `x : A`:
+        By induction on `zs : Seq A`:
+          Base case `(x ◃ xs) isPrefixOf 𝜖 ≡ (∃ ys • (x ◃ xs) ⌢ ys = 𝜖)`:
+              (x ◃ xs) isPrefixOf 𝜖 ≡ (∃ ys • (x ◃ xs) ⌢ ys = 𝜖)
+            ≡⟨ “Definition of `isPrefixOf`” ⟩
+              false ≡ (∃ ys • (x ◃ xs) ⌢ ys = 𝜖)
+            ≡⟨ “Mutual associativity of ◃ with ⌢” ⟩
+              false ≡ (∃ ys • x ◃ (xs ⌢ ys) = 𝜖)
+            ≡⟨ “Cons is not empty” ⟩
+              false ≡ (∃ ys • false)
+            ≡⟨ “False ∃ body”, “Reflexivity of ≡” ⟩
+              true
+          Induction step `∀ z : A • (x ◃ xs) isPrefixOf (z ◃ zs) ≡ (∃ ys • (x ◃ xs) ⌢ ys = z ◃ zs)`:
+            For any `z : A`:
+                (x ◃ xs) isPrefixOf (z ◃ zs) ≡ (∃ ys • (x ◃ xs) ⌢ ys = z ◃ zs)
+              ≡⟨ “Definition of `isPrefixOf`” ⟩
+                x = z ∧ xs isPrefixOf zs ≡ (∃ ys • (x ◃ xs) ⌢ ys = z ◃ zs)
+              ≡⟨ Induction hypothesis ⟩
+                x = z ∧ (∃ ys • xs ⌢ ys = zs) ≡ (∃ ys • (x ◃ xs) ⌢ ys = z ◃ zs)
+              ≡⟨ “Mutual associativity of ◃ with ⌢” ⟩
+                x = z ∧ (∃ ys • xs ⌢ ys = zs) ≡ (∃ ys • x ◃ (xs ⌢ ys) = z ◃ zs)
+              ≡⟨ “Cancellation of ◃” ⟩
+                x = z ∧ (∃ ys • xs ⌢ ys = zs) ≡ (∃ ys • x = z ∧ xs ⌢ ys = zs)
+              ≡⟨ “Distributivity of ∧ over ∃” ⟩
+                x = z ∧ (∃ ys • xs ⌢ ys = zs) ≡ x = z ∧ (∃ ys • xs ⌢ ys = zs)
+              ≡⟨ “Reflexivity of ≡” ⟩
+                true
+
+Lemma “ExprV evaluation after substitution”:
+  ∀ e • evalV s (substV v f e) = evalV (s ⊕′ ⟨v, evalV s f⟩) e
+Proof:
+  Using “Induction over `ExprV`”:
+    Subproof for `∀ u • evalV s (substV v f (Var′ u)) = evalV (s ⊕′ ⟨v, evalV s f⟩) (Var′ u)`:
+      For any `u`:
+        By cases: `u = v`, `v ≠ u` ╍╍╍ There is two case for substV with `Var' v`
+          Completeness: By “Definition of ≠”, “LEM”
+          Case `u ≠ v`:
+              evalV s (substV v f (Var′ u))
+            =⟨ “Definition of `substV`” with assumption `u ≠ v` ⟩
+              evalV s (Var′ u)
+            =⟨ “Definition of `evalV`” ⟩
+              s u
+            =⟨ “Definition of function override” with assumption `v ≠ u` ⟩
+              (s ⊕′ ⟨v, evalV s f⟩) u ╍╍╍ Axiom (x ≠ z ⇒ (f ⊕′ ⟨ x, y ⟩) z = f z)
+            =⟨ “Definition of `evalV`” ⟩
+              evalV (s ⊕′ ⟨v, evalV s f⟩) (Var′ u)
+          Case `u = v`:
+              evalV s (substV v f (Var′ u))
+            =⟨ Assumption `u = v` ⟩
+              evalV s (substV v f (Var′ v))
+            =⟨ “Definition of `substV`” ⟩
+              evalV s f
+            =⟨ “Definition of function override” with assumption `u = v` ⟩
+              (s ⊕′ ⟨v, evalV s f⟩) u
+            =⟨ “Definition of `evalV`” ⟩
+              evalV (s ⊕′ ⟨v, evalV s f⟩) (Var′ u)
+    Subproof:
+      For any `n`:
+          evalV s (substV v f (Int′ n))
+        =⟨ “Definition of `substV`” ⟩
+          evalV s (Int′ n)
+        =⟨ “Definition of `evalV`” ⟩
+          n
+        =⟨ “Definition of `evalV`” ⟩
+          evalV (s ⊕′ ⟨v, evalV s f⟩) (Int′ n)
+    Subproof:
+      For any `e₁, e₂` satisfying “IndHyp”
+            `evalV s (substV v f e₁) = evalV (s ⊕′ ⟨v, evalV s f⟩) e₁ ∧
+             evalV s (substV v f e₂) = evalV (s ⊕′ ⟨v, evalV s f⟩) e₂`:
+          evalV s (substV v f (e₁ +′ e₂))
+        =⟨ “Definition of `substV`” ⟩
+          evalV s (substV v f e₁ +′ substV v f e₂)
+        =⟨ “Definition of `evalV`” ⟩
+          evalV s (substV v f e₁) + evalV s (substV v f e₂)
+        =⟨ Assumption “IndHyp” ⟩
+          evalV (s ⊕′ ⟨v, evalV s f⟩) e₁ +
+          evalV (s ⊕′ ⟨v, evalV s f⟩) e₂
+        =⟨ “Definition of `evalV`” ⟩
+          evalV (s ⊕′ ⟨v, evalV s f⟩) (e₁ +′ e₂)
+    Subproof:
+      For any `e₁, e₂` satisfying “IndHyp”
+            `evalV s (substV v f e₁) = evalV (s ⊕′ ⟨v, evalV s f⟩) e₁ ∧
+             evalV s (substV v f e₂) = evalV (s ⊕′ ⟨v, evalV s f⟩) e₂`:
+          evalV s (substV v f (e₁ ·′ e₂))
+        =⟨ “Definition of `substV`” ⟩
+          evalV s (substV v f e₁ ·′ substV v f e₂)
+        =⟨ “Definition of `evalV`” ⟩
+          evalV s (substV v f e₁) · evalV s (substV v f e₂)
+        =⟨ Assumption “IndHyp” ⟩
+          evalV (s ⊕′ ⟨v, evalV s f⟩) e₁ ·
+          evalV (s ⊕′ ⟨v, evalV s f⟩) e₂
+        =⟨ “Definition of `evalV`” ⟩
+          evalV (s ⊕′ ⟨v, evalV s f⟩) (e₁ ·′ e₂)
+
+Derived inference rule “Conditional”:
+
+      `B ∧′ P ⇒⁅ C₁ ⁆ Q`,   `¬′ B ∧′ P ⇒⁅ C₂ ⁆ Q`
+    ⊦————————————————————————————————————————————
+        `P ⇒⁅ if B then C₁ else C₂ fi ⁆ Q`
+
+Proof:
+  Assuming (C₁) `B ∧′ P ⇒⁅ C₁ ⁆ Q` and using with “Partial correctness”,
+           (C₂) `¬′ B ∧′ P ⇒⁅ C₂ ⁆ Q` and using with “Partial correctness”:
+      P ⇒⁅ if B then C₁ else C₂ fi ⁆ Q
+    ≡⟨ “Partial correctness” ⟩
+      ⟦ if B then C₁ else C₂ fi ⟧ ⦇ sat P ⦈ ⊆ sat Q
+    ≡⟨ “Conjunction on `Expr𝔹`”, “Negation on `Expr𝔹`” ⟩
+      ⟦ while B do C od ⟧ ⦇ sat Q ⦈ ⊆ ~ (sat B) ∩ sat Q
+    =⟨ “Relational image under ⨾” ⟩
+       ⟦ C₂ ⟧ ⦇ (⟦ C₁ ⟧ ⦇ sat P ⦈) ⦈ ⊆ sat R
+    ⇐⟨ Monotonicity of  with Assumption (C₁) ⟩
+       ⟦ C₂ ⟧ ⦇ sat Q ⦈ ⊆ sat R
+    ≡⟨ Assumption (C₂) ⟩
+       true
 
 Theorem “Summing up”:
       true
